@@ -1,9 +1,9 @@
 ---
-layout: "../../layouts/BlogPost.astro"
-title: "first post"
-description: "Irure aute anim voluptate velit enim irure non ut qui consectetur ipsum."
-publishDate: "Jul 18 2023"
-heroImage: "/assets/dalle-e.png"
+layout: ../../layouts/BlogPost.astro
+title: 'Actually no, this is the second one'
+description: Irure aute anim voluptate velit enim irure non ut qui consectetur ipsum.
+publishDate: '2023-01-01T00:00:00-05:00'
+heroImage: /assets/uploads/dalle-e.png
 ---
 
 Magna officia sint pariatur velit aute sit ex nulla quis excepteur officia. Fugiat deserunt consectetur occaecat sit laboris ex est id. Mollit sunt occaecat consequat labore incididunt. In culpa laboris aute sunt ipsum enim do incididunt. Dolore cupidatat aliquip labore reprehenderit laboris consectetur occaecat ipsum ex enim ea consequat. Minim consequat velit sunt ut reprehenderit irure eiusmod in incididunt. Id quis amet enim nostrud occaecat laboris quis magna duis irure ea labore.
