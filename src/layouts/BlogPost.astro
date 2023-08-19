@@ -15,17 +15,15 @@ const { title, description, publishDate, updatedDate, heroImage } = Astro.props.
 
 // Match the `heroImage` frontmatter string to its correct
 // Astro.glob() import of the file in the src/ directory.
-const assets = await Astro.glob('../assets/**/*');
-const heroImageAsset = assets.find(asset => {
-	if (!heroImage) 
-		return false;
+const imgNameOrg = heroImage?.split('/').pop();
+const heroImageAsset = heroImage ? (await Astro.glob('../assets/**/*')).find(({ default : asset }) => {
+  	//if (!asset.default?.src) return false;
+
+	const imgName = asset?.split('/').pop();
 	
-  	if (!asset.default?.src) 
-		return false;
-	
-  	const index = asset.default.src.indexOf('/assets/');
-  	return asset.default.src.slice(index) === heroImage;
-});
+	console.log(imgNameOrg, imgName);
+  	return imgName === imgNameOrg;
+}) : null;
 ---
 
 <html>
