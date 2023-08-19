@@ -10,9 +10,7 @@ export interface Props {
 	};
 }
 
-const {
-	content: { title, description, publishDate, updatedDate, heroImage },
-} = Astro.props as Props;
+const { title, description, publishDate, updatedDate, heroImage } = Astro.props.content;
 
 
 // Match the `heroImage` frontmatter string to its correct
