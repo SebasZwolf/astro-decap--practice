@@ -3,7 +3,7 @@ layout: "@layouts/BlogPost.astro"
 title: prooving
 description: testing is fun
 publication: 2023-08-18T19:47:50-05:00
-thumbnail: /pencil-text.png
+thumbnail: ""
 misc: 2023-08-18T19:47:50-05:00
 ---
 

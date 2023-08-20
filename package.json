@@ -10,7 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.10.9"
+    "astro": "^2.10.9",
+    "astro-netlify-cms": "^0.0.1",
+    "netlify-cms": "^2.10.192"
   },
   "devDependencies": {
     "sass": "^1.66.0"
