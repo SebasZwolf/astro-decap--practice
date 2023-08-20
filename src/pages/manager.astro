@@ -20,7 +20,33 @@ const authors = (await getCollection('author'));
   <!-- Include the script that builds the page and powers Netlify CMS -->
 	<script src="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.js" is:inline></script>
   <script define:vars={ {authors} }>
-    console.log(text);
+    console.log(authors);
+
+    var CategoriesControl = createClass({
+
+      render: function() {
+        const { value = '', forID : id, classNameWrapper : className, onChange } = this.props;
+
+        return h('input', {
+          type: 'text',
+
+          id,
+          className,
+          value,
+          
+          onChange : ({ target }) => onChange( target.value ),
+        });
+      },
+    });
+
+    var CategoriesPreview = createClass({
+      render() {
+        return h('span', {}, this.props.value );
+      }
+    });
+
+    CMS.registerWidget('span', CategoriesControl, CategoriesPreview);
+
   </script>
 </body>
 </html>
