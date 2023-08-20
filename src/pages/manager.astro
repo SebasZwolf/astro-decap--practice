@@ -1,5 +1,6 @@
 ---
-
+import { getCollection } from "astro:content";
+const authors = (await getCollection('author'));
 ---
 
 <!doctype html>
@@ -18,5 +19,8 @@
 <body>
   <!-- Include the script that builds the page and powers Netlify CMS -->
 	<script src="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.js" is:inline></script>
+  <script define:vars={ {authors} }>
+    console.log(text);
+  </script>
 </body>
 </html>
