@@ -27,15 +27,15 @@ const authors = (await getCollection('author'));
       render: function() {
         const { value = '', forID : id, classNameWrapper : className, onChange } = this.props;
 
-        return h('input', {
-          type: 'text',
-
+        return h('select', {
           id,
           className,
           value,
           
           onChange : ({ target }) => onChange( target.value ),
-        });
+        },
+          authors.map( a => h('option', { value : a.id }, `${a.data.lname}, ${a.data.fname.charAt(0).toUpperCase()}.` ))
+        );
       },
     });
 
