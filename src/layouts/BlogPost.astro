@@ -1,63 +1,29 @@
 ---
+
 import BaseHead from "../components/BaseHead.astro";
-export interface Props {
-	content: {
-		title: string;
-		description: string;
-		publishDate?: string;
-		updatedDate?: string;
-		heroImage?: string;
-	};
-}
+import Layout from './Layout.astro';
 
-const { title, description, publishDate, updatedDate, heroImage } = Astro.props.content;
+import type { MarkdownLayoutProps } from "astro";
+type Props = MarkdownLayoutProps<{
+	title: string;
+	description: string;
+	publication?: unknown;
+	thumbnail?: string;
+}>;
 
+const { title, description, publication } = Astro.props.frontmatter;
 
-// Match the `heroImage` frontmatter string to its correct
-// Astro.glob() import of the file in the src/ directory.
-const imgNameOrg = heroImage?.split('/').pop();
-const heroImageAsset = heroImage ? (await Astro.glob('../assets/**/*')).find(({ default : asset }) => {
-  	//if (!asset.default?.src) return false;
-
-	const imgName = asset?.split('/').pop();
-	
-	console.log(imgNameOrg, imgName);
-  	return imgName === imgNameOrg;
-}) : null;
 ---
-
-<html>
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			.title {
-				font-size: 2em;
-				margin: 0.25em 0 0;
-			}
-			hr {
-  				border-top: 1px solid #DDD;
-				margin: 1rem 0;
-			}
-		</style>
-	</head>
-
+<Layout title={title}>
+	<BaseHead slot="head" title={title} description={description} />
 	<body>
 		<main>
 			<article>
-				{heroImageAsset && (
-					<img 
-						width={720}
-						height={360}
-						src={heroImageAsset.default}
-						alt=""
-					/>
-				)}
-				<h1 class="title">{title}</h1>
-				{publishDate && <time>{publishDate}</time>}
-				{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
+				<h1 class="title">The topic of today is: "{title}"</h1>
+				{publication && <div>Publised on <time>{new Date(publication as string).toDateString()}</time></div>}
 				<hr/>
 				<slot />
 			</article>
 		</main>
 	</body>
-</html>
+</Layout>

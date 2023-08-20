@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection("blog");
+---
+<main style="margin: auto; width: 480px;">
+	<a href="/">home</a>
+	<ul style="list-style: none; margin: 0">
+		{posts.map(post => (
+			<li style="padding: 1rem .5rem; background-color:#0005">
+				<time style="font-family: 'Courier New', Courier, monospace;" datetime={post.data.publication.toISOString()}>{post.data.publication.toLocaleDateString('en-us', {year: 'numeric', month: 'short', day: '2-digit',})}</time>
+				<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+			</li>
+		))}
+	</ul>
+</main>
