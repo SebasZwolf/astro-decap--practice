@@ -32,13 +32,23 @@ const authors = (await getCollection('author'));
   </script>
   <script is:inline>
     if (window.netlifyIdentity) {
+      /*
       window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
+        if (!user) window.netlifyIdentity.on("login", () => document.location.href = "/admin/");
       });
+      */
+
+      window.netlifyIdentity.on("login", () => console.log('login'));
+      window.netlifyIdentity.on("logout", () => {
+        console.log('logout');
+        window.netlifyIdentity.close();
+        document.location.href = "/";
+      });
+
+      window.netlifyIdentity.on('error', err => console.error('Error', err));
+
+      window.netlifyIdentity.on('open', () => console.log('Widget opened'));
+      window.netlifyIdentity.on('close', () => console.log('Widget closed'));
     }
   </script>
 </body>
