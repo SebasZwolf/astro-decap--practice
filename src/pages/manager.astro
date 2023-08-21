@@ -12,13 +12,13 @@ const authors = (await getCollection('author'));
   <title>Content Manager</title>
 
   <!-- Include the styles for the Netlify CMS UI, after your own styles -->
-  <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.css" />
+  <!--link rel="stylesheet" href="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.css" /-->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" is:inline></script>
 
 </head>
 <body>
   <!-- Include the script that builds the page and powers Netlify CMS -->
-	<script src="https://unpkg.com/decap-cms@^2.0.0/dist/cms.js" is:inline></script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js" is:inline></script>
   <script define:vars={ {authors} }>
 
       /*
