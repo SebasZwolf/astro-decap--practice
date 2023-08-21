@@ -33,7 +33,7 @@ const authors = (await getCollection('author'));
         );
       },
       function(props) {
-        return h('span', { style : 'padding: .75rem .5rem; background-color: rose; border-radius: 8px;' }, props.value );
+        return h('span', {}, props.value );
       }
     );
 
