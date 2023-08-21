@@ -8,10 +8,24 @@ console.log(posts[0]);
 ---
 
 <GeneralLayout title="Welcome to Astro.">
+	<script slot="head" is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+	
 	<main>
 		this is the main page
 	</main>
 	<a href="/blog">blog</a>
+
+	<script is:inline>
+		if (window.netlifyIdentity) {
+		  window.netlifyIdentity.on("init", user => {
+			if (!user) {
+			  window.netlifyIdentity.on("login", () => {
+				document.location.href = "/admin/";
+			  });
+			}
+		  });
+		}
+	</script>
 </GeneralLayout>
 
 <style>
