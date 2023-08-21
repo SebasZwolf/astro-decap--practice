@@ -1,18 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
+import GeneralLayout from '../layouts/GeneralLayout.astro';
 
 
 const posts = await getCollection("blog");
 console.log(posts[0]);
 ---
 
-<Layout title="Welcome to Astro.">
+<GeneralLayout title="Welcome to Astro.">
 	<main>
 		this is the main page
 	</main>
 	<a href="/blog">blog</a>
-</Layout>
+</GeneralLayout>
 
 <style>
 

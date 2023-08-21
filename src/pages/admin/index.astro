@@ -44,7 +44,7 @@ const authors = (await getCollection('author'));
       window.netlifyIdentity.on("init", user => {
         if (!user) {
           window.netlifyIdentity.on("login", () => {
-            document.location.href = "/manager/";
+            document.location.href = "/admin/";
           });
         }
       });
