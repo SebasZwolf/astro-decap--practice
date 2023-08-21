@@ -20,33 +20,25 @@ const authors = (await getCollection('author'));
   <!-- Include the script that builds the page and powers Netlify CMS -->
 	<script src="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.js" is:inline></script>
   <script define:vars={ {authors} }>
-    console.log(authors);
 
-    var CategoriesControl = createClass({
 
-      render: function() {
-        const { value = '', forID : id, classNameWrapper : className, onChange } = this.props;
+    console.log(createElement);
+    createElement = createElement ?? React.createElement;
 
-        return h('select', {
-          id,
-          className,
-          value,
-          
-          onChange : ({ target }) => onChange( target.value ),
-        },
-          authors.map( a => h('option', { value : a.id }, `${a.data.lname}, ${a.data.fname.charAt(0).toUpperCase()}.` ))
-        );
-      },
-    });
+    const onChange = e => onChange( e.target.value );
+    const CategoriesControl = function(props) {
+      const { value = '', forID : id, classNameWrapper : className, onChange } = props;
 
-    var CategoriesPreview = createClass({
-      render() {
-        return h('span', {}, this.props.value );
-      }
-    });
+      return React.createElement('select', { id, className, value, onChange },
+        authors.map( a => h('option', { value : a.id }, `${a.data.lname}, ${a.data.fname.charAt(0).toUpperCase()}.` ))
+      );
+    }
+
+    const CategoriesPreview = function(props) {
+        return React.createElement('span', {}, props.value );
+    };
 
     CMS.registerWidget('span', CategoriesControl, CategoriesPreview);
-
   </script>
 </body>
 </html>
