@@ -54,7 +54,11 @@ const decap = DecapCMS({
         ]
     },
 });
+
+[^a-z0-9áéíóúñü_\-\s\.,]
 */
+
+
 
 export default defineConfig({
     integrations : [
