@@ -20,27 +20,35 @@ const authors = (await getCollection('author'));
   <!-- Include the script that builds the page and powers Netlify CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js" is:inline></script>
   <script define:vars={ {authors} }>
+      
+    console.log(createClass);
 
-      /*
-    console.log(createElement);
-    createElement = createElement ?? React.createElement;
+    CMS.registerWidget(
+      'span', 
+      function(props) {
+        const { value = '', forID : id, classNameWrapper : className, onChange } = props;
 
-    const onChange = e => onChange( e.target.value );
-    const CategoriesControl = function(props) {
-      const { value = '', forID : id, classNameWrapper : className, onChange } = props;
+        return h('select', { id, className, value, onChange : e => onChange(e.target.value) },
+          authors.map( a => h('option', { value : a.id }, `${a.data.lname}, ${a.data.fname.charAt(0).toUpperCase()}.` ))
+        );
+      },
+      function(props) {
+        return h('span', { style : 'padding: .75rem .5rem; background-color: rose; border-radius: 8px;' }, props.value );
+      }
+    );
 
-      return React.createElement('select', { id, className, value, onChange },
-        authors.map( a => h('option', { value : a.id }, `${a.data.lname}, ${a.data.fname.charAt(0).toUpperCase()}.` ))
-      );
+    
+  </script>
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/manager/";
+          });
+        }
+      });
     }
-
-    const CategoriesPreview = function(props) {
-        return React.createElement('span', {}, props.value );
-    };
-
-    CMS.registerWidget('span', CategoriesControl, CategoriesPreview);
-
-    */
   </script>
 </body>
 </html>
