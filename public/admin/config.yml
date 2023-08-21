@@ -14,7 +14,6 @@ collections:
     create: true 
     slug:   "b-{{slug}}"
     fields:
-      - {label: "Layout", name: "layout", widget: "hidden", default: "@layouts/BlogPost.astro"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Description", name: "description", widget: "string"}
       - {label: "Publish Date", name: "publication", widget: "datetime"}

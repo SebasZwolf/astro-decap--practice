@@ -1,5 +1,4 @@
 ---
-layout: "@layouts/BlogPost.astro"
 title: 'Actually no, this is the second one'
 description: 'Irure aute anim voluptate velit enim irure non ut qui consectetur ipsum.'
 publication: 2023-01-01T00:00:00-05:00
