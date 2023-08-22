@@ -8,15 +8,8 @@ media_folder: "src/assets"
 public_folder: "/assets"
 
 collections:
-  - name:   "blog"
-    label:  "Blog"
+  - name:   "default_blog"
+    label:  "Default Blog"
     folder: "src/content/blog"
-    create: true 
-    slug:   "b-{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Description", name: "description", widget: "string"}
-      - {label: "Publish Date", name: "publication", widget: "datetime"}
-      - {label: "Hero Image", name: "thumbnail", widget: "image"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Span", name: "span", widget: "span", required: false}

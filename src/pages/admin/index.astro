@@ -1,6 +1,138 @@
 ---
+import { never } from "astro/zod";
 import { getCollection } from "astro:content";
+
 const authors = (await getCollection('author'));
+type options<T> = T | (string & Record<never, never>)
+type field = {
+  name : string,
+  widget : any,
+
+  label? : string,
+  default? : unknown,
+  required? : boolean,
+  hint? : string,
+  pattern? : `/${string}/${string}`,
+  comment? : string,
+};
+function defineColletion(o : {
+  name : string,
+  label? : string,
+  label_singular? : string,
+  description? : string,
+  
+  identifier_field? : "name" | string,
+  editor? : {
+    preview : boolean,
+  },
+} & ({
+  files : Record<string, unknown>[],
+} | {
+  folder : string,
+  filter? : {
+    field : string,
+    value : string,
+  },
+  create? : boolean,
+  publish? : true,
+  hide? : boolean,
+  delete? : false,
+
+  extension? : options<"yml" | "yaml" | "toml" | "json" | "md" | "markdown" | "html">, //extension for making queries
+  format? : "yml" | `${"frontmatter-" | ""}${"yaml" | "toml" | "json"}`,
+
+  frontmatter_delimiter? : '---',
+  slug? : string,
+  preview_path? : `${string}/{{slug}}`,
+  preview_path_date_field? : string,
+
+  fields : field[],
+  summary? : options<'{{commit_author}}: {{title}}'>,
+
+  sortable_fields? : string[],
+  view_filters? : {
+    label : string,
+    field : string,
+    pattern : string,
+  }[],
+  view_groups? : never[],
+})) { return o; };
+
+
+const cmsConfig = JSON.stringify({
+  backend: {
+    name : import.meta.env.PROD ? "git-gateway" : "test-repo",
+    branch : "main",
+  },
+  load_config_file: false,
+  publish_mode :  "editorial_workflow",
+  media_folder :  "src/assets",
+  public_folder : "/assets",
+
+  site_url: "/",
+  display_url : import.meta.env.BASE_URL,
+  locale: 'es',
+  search : false,
+  show_preview_links : true,
+  
+  collections : [
+    defineColletion({
+      name : "blog",
+      label : "Blog",
+      folder : "src/content/blog",
+      preview_path: "blog/{{slug}}",
+      create : true,
+      slug : "{{slug}}",
+      fields : [
+        {
+          "label": "Title",
+          "name": "title",
+          "widget": "string"
+        },
+        {
+          "label": "Description",
+          "name": "description",
+          "widget": "string"
+        },
+        {
+          "label": "Publish Date",
+          "name": "publication",
+          "widget": "datetime"
+        },
+        {
+          "label": "Picture",
+          "name": "thumbnail",
+          "widget": "image",
+          "required" : false,
+        },
+        {
+          "label": "Body",
+          "name": "body",
+          "widget": "markdown"
+        },
+      ]
+    }),
+    {
+      name : "new",
+      label : "New",
+      folder : "src/content/new",
+      create : true,
+      slug : "n-{{slug}}",
+      fields : [
+        {
+          "label": "Title",
+          "name": "title",
+          "widget": "string"
+        },
+        {
+          "label": "Body",
+          "name": "body",
+          "widget": "markdown"
+        },
+      ]
+    }
+  ]
+})
 ---
 <!doctype html>
 <html>
@@ -11,11 +143,27 @@ const authors = (await getCollection('author'));
   <title>Content Manager</title>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" is:inline></script>
+  <!--link href="/admin/config.yml" type="text/yaml" rel="cms-config-url"-->
+
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js" is:inline></script>
+  <script is:inline type="module" define:vars={ {authors, cmsConfig} }>
+    window.CMS_MANUAL_INIT = true;
+    await import("https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js");
 
-  <script define:vars={ {authors} }>
+    const { CMS, initCMS: init } = window;
+
+    init({ config : JSON.parse( cmsConfig ) });
+    
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("logout", () => (window.netlifyIdentity.close(), document.location.href = "/"));
+      
+      window.netlifyIdentity.init({
+        locale : 'es',
+        APIUrl: "https://astro-decap-practice.netlify.app/.netlify/identity",
+      });
+    }
+
     CMS.registerWidget(
       'span', 
       function(props) {
@@ -29,27 +177,7 @@ const authors = (await getCollection('author'));
         return h('span', { style : { backgroundColor : 'rose' } }, props.value );
       }
     );
-  </script>
-  <script is:inline>
-    if (window.netlifyIdentity) {
-      /*
-      window.netlifyIdentity.on("init", user => {
-        if (!user) window.netlifyIdentity.on("login", () => document.location.href = "/admin/");
-      });
-      */
 
-      window.netlifyIdentity.on("login", () => console.log('login'));
-      window.netlifyIdentity.on("logout", () => {
-        console.log('logout');
-        window.netlifyIdentity.close();
-        document.location.href = "/";
-      });
-
-      window.netlifyIdentity.on('error', err => console.error('Error', err));
-
-      window.netlifyIdentity.on('open', () => console.log('Widget opened'));
-      window.netlifyIdentity.on('close', () => console.log('Widget closed'));
-    }
   </script>
 </body>
 </html>

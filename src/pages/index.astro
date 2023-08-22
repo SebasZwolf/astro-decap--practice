@@ -2,9 +2,7 @@
 import { getCollection } from 'astro:content';
 import GeneralLayout from '../layouts/GeneralLayout.astro';
 
-
 const posts = await getCollection("blog");
-console.log(posts[0]);
 ---
 
 <GeneralLayout title="Welcome to Astro.">
@@ -16,15 +14,8 @@ console.log(posts[0]);
 	<a href="/blog">blog</a>
 
 	<script is:inline>
-		if (window.netlifyIdentity) {
-		  window.netlifyIdentity.on("init", user => {
-			if (!user) {
-			  window.netlifyIdentity.on("login", () => {
-				document.location.href = "/admin/";
-			  });
-			}
-		  });
-		}
+		if (window.netlifyIdentity)
+			window.netlifyIdentity.on("init", usr => !usr && window.netlifyIdentity.on("login", () => document.location.href = "/admin/"));
 	</script>
 </GeneralLayout>
 
